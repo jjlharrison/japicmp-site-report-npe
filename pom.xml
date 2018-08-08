@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.jjlharrison</groupId>
+    <artifactId>japicmp-site-report-npe</artifactId>
+    <version>1.0.1-SNAPSHOT</version>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-site-plugin</artifactId>
+                    <version>3.7.1</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <reporting>
+        <outputDirectory>target/site</outputDirectory>
+        <plugins>
+            <plugin>
+                <groupId>com.github.siom79.japicmp</groupId>
+                <artifactId>japicmp-maven-plugin</artifactId>
+                <version>0.12.0</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>cmp-report</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+                <configuration>
+                    <parameter>
+                        <onlyModified>true</onlyModified>
+                        <includeSynthetic>true</includeSynthetic>
+                        <breakBuildBasedOnSemanticVersioning>true</breakBuildBasedOnSemanticVersioning>
+                        <overrideCompatibilityChangeParameters>
+                            <!-- japicmp considers the following acceptable for minor version changes as they are binary compatible, but we
+                            require source compatibility for minor versions, we override them to be considered binary incompatible to work around this. -->
+                            <overrideCompatibilityChangeParameter>
+                                <compatibilityChange>CLASS_NOW_CHECKED_EXCEPTION</compatibilityChange>
+                                <binaryCompatible>false</binaryCompatible>
+                                <sourceCompatible>false</sourceCompatible>
+                            </overrideCompatibilityChangeParameter>
+                            <overrideCompatibilityChangeParameter>
+                                <compatibilityChange>METHOD_ABSTRACT_ADDED_TO_CLASS</compatibilityChange>
+                                <binaryCompatible>false</binaryCompatible>
+                                <sourceCompatible>false</sourceCompatible>
+                            </overrideCompatibilityChangeParameter>
+                            <overrideCompatibilityChangeParameter>
+                                <compatibilityChange>METHOD_ABSTRACT_ADDED_IN_SUPERCLASS</compatibilityChange>
+                                <binaryCompatible>false</binaryCompatible>
+                                <sourceCompatible>false</sourceCompatible>
+                            </overrideCompatibilityChangeParameter>
+                            <overrideCompatibilityChangeParameter>
+                                <compatibilityChange>METHOD_ABSTRACT_ADDED_IN_IMPLEMENTED_INTERFACE</compatibilityChange>
+                                <binaryCompatible>false</binaryCompatible>
+                                <sourceCompatible>false</sourceCompatible>
+                            </overrideCompatibilityChangeParameter>
+                        </overrideCompatibilityChangeParameters>
+                    </parameter>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+</project>
